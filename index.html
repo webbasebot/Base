@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="theme-color" content="#0b1220" />
+<title>TradingView-style PWA Landing</title>
+
+<!-- Basic styling (responsive, mobile-first) -->
+<style>
+  :root{
+    --bg:#071123; --card:#0f1724; --muted:#9aa7b3;
+    --accent:#00b894; --glass: rgba(255,255,255,0.03);
+    --radius:12px; --gap:16px; --container:1100px;
+    --max-width:1200px;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    color: #e6f0f6;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;background:linear-gradient(180deg,#041019 0%, #071123 60%);font-size:16px}
+  a{color:inherit;text-decoration:none}
+  header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;max-width:var(--container);margin:0 auto}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:700}
+  .logo svg{width:36px;height:36px}
+  .nav{display:flex;gap:10px;align-items:center}
+  .cta{background:var(--accent);color:#051219;padding:8px 12px;border-radius:10px;font-weight:600}
+  .container{max-width:var(--max-width);margin:0 auto;padding:18px;gap:var(--gap);display:flex;flex-direction:column}
+  .hero{display:grid;grid-template-columns:1fr 420px;gap:20px;align-items:center;padding:22px;background:var(--glass);border-radius:16px}
+  .hero h1{margin:0;font-size:clamp(20px,4vw,36px)}
+  .hero p{color:var(--muted);margin:12px 0 18px}
+  .market-cards{display:flex;flex-wrap:wrap;gap:12px}
+  .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:12px;border-radius:12px;min-width:120px}
+  .cards-row{display:flex;gap:12px}
+
+  main{display:flex;gap:18px;margin-top:18px}
+  .left{flex:1;display:flex;flex-direction:column;gap:18px}
+  .right{width:360px;min-width:260px;display:flex;flex-direction:column;gap:12px}
+  .chart-card{background:var(--card);padding:12px;border-radius:12px;min-height:320px;position:relative;display:flex;flex-direction:column}
+  .toolbar{display:flex;gap:8px;align-items:center;margin-bottom:8px}
+  .btn{background:transparent;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);cursor:pointer}
+  .left .drawing-tools{display:flex;gap:6px;flex-wrap:wrap;padding:8px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);border-radius:10px}
+  .watchlist, .news, .orders{background:var(--card);padding:12px;border-radius:12px}
+  footer{margin-top:26px;padding:18px;color:var(--muted);font-size:14px;text-align:center}
+
+  /* small screens */
+  @media (max-width:980px){
+    .hero{grid-template-columns:1fr; padding:16px}
+    main{flex-direction:column}
+    .right{width:100%}
+    header{padding:12px}
+  }
+
+  /* simple "chart" placeholder */
+  .chart-skeleton{
+    background: linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.03) 50%, rgba(255,255,255,0.02) 100%);
+    border-radius:10px;flex:1;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:14px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
+  }
+
+  /* compact elements for mobile */
+  .compact-row{display:flex;gap:8px;flex-wrap:wrap}
+  .muted{color:var(--muted);font-size:14px}
+</style>
+</head>
+<body>
+<!-- Header / Nav -->
+<header>
+  <div class="logo">
+    <!-- simple trading-like SVG mark -->
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect x="1" y="1" width="22" height="22" rx="5" fill="#0b1220"/>
+      <path d="M4 16 L9 9 L13 12 L20 5" stroke="#00b894" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    TradingView-Lite
+  </div>
+
+  <nav class="nav" aria-label="Main navigation">
+    <a class="muted" href="#">Products</a>
+    <a class="muted" href="#">Markets</a>
+    <a class="muted" href="#">Community</a>
+    <a class="muted" href="#">Brokers</a>
+    <a class="cta" href="#">Sign up</a>
+  </nav>
+</header>
+
+<!-- Main container -->
+<div class="container" role="main">
+
+  <!-- Hero -->
+  <section class="hero" aria-labelledby="hero-heading">
+    <div>
+      <h1 id="hero-heading">Where the world charts, chats, and trades markets</h1>
+      <p>Fast charts • Live data • Community ideas • Trade with supported brokers — all in one place.</p>
+
+      <div class="compact-row">
+        <button class="btn">Open Chart</button>
+        <button class="btn">Ideas</button>
+        <button class="btn">Screeners</button>
+        <button class="btn">Get Widgets</button>
+      </div>
+
+      <div style="margin-top:14px;">
+        <h4 style="margin:0 0 8px 0;">Market snapshot</h4>
+        <div class="market-cards">
+          <div class="card"><strong>SPX</strong><div class="muted">+0.72% • 4,567</div></div>
+          <div class="card"><strong>BTC</strong><div class="muted">+1.9% • 42,987</div></div>
+          <div class="card"><strong>EURUSD</strong><div class="muted">1.0842</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: small quick chart / CTA -->
+    <aside style="display:flex;flex-direction:column;gap:10px;align-items:stretch;">
+      <div style="background:var(--card);padding:10px;border-radius:12px;min-width:220px">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div><strong>BTC / USD</strong><div class="muted" style="font-size:12px">Realtime</div></div>
+          <div style="text-align:right"><div style="color:#00ffb3;font-weight:700">+1.9%</div><div class="muted" style="font-size:12px">42,987</div></div>
+        </div>
+        <div style="height:90px;margin-top:10px;border-radius:8px;overflow:hidden" class="chart-skeleton">Mini-chart</div>
+      </div>
+
+      <div style="background:linear-gradient(90deg,#06101a,#081521);padding:12px;border-radius:12px;text-align:center">
+        <strong>Start charting — it's free</strong>
+        <div style="margin-top:8px"><button class="cta">Launch chart</button></div>
+      </div>
+    </aside>
+  </section>
+
+  <!-- Main layout: Chart + sidebars -->
+  <main>
+    <div class="left">
+      <!-- Top Toolbar -->
+      <div class="chart-card" aria-label="Chart area">
+        <div class="toolbar" role="toolbar" aria-label="Chart toolbar">
+          <div style="display:flex;gap:6px;align-items:center">
+            <button class="btn">Symbol</button>
+            <button class="btn">1D</button>
+            <button class="btn">1H</button>
+            <button class="btn">Indicators</button>
+            <button class="btn">Templates</button>
+            <button class="btn">Snapshot</button>
+          </div>
+          <div style="margin-left:auto;display:flex;gap:6px">
+            <button class="btn">Save</button>
+            <button class="btn">Layout</button>
+          </div>
+        </div>
+
+        <!-- Drawing tools row -->
+        <div class="left-drawings">
+          <div class="drawing-tools" aria-hidden="false">
+            <button class="btn">Trend</button>
+            <button class="btn">Fib</button>
+            <button class="btn">Text</button>
+            <button class="btn">Measure</button>
+            <button class="btn">Brush</button>
+          </div>
+        </div>
+
+        <!-- Chart placeholder -->
+        <div class="chart-skeleton" id="mainChart">Interactive Chart Placeholder</div>
+
+        <!-- chart footer small -->
+        <div style="display:flex;justify-content:space-between;margin-top:10px">
+          <div class="muted">Y-axis • Price</div>
+          <div class="muted">X-axis • Time</div>
+        </div>
+      </div>
+
+      <!-- Features highlight -->
+      <section style="display:flex;gap:12px;flex-wrap:wrap;">
+        <div class="card" style="flex:1;min-width:220px">
+          <h4 style="margin:0 0 6px 0">Screeners</h4>
+          <div class="muted">Find stocks, crypto, forex that match your rules.</div>
+        </div>
+        <div class="card" style="flex:1;min-width:220px">
+          <h4 style="margin:0 0 6px 0">Alerts</h4>
+          <div class="muted">Price, indicator and strategy alerts sent to mobile & web.</div>
+        </div>
+        <div class="card" style="flex:1;min-width:220px">
+          <h4 style="margin:0 0 6px 0">Pine Script</h4>
+          <div class="muted">Build custom indicators & strategies.</div>
+        </div>
+      </section>
+
+      <!-- Community / Ideas -->
+      <section class="card" style="padding:14px;">
+        <h3 style="margin:0 0 8px 0">Community ideas</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div style="background:#071726;padding:10px;border-radius:8px">
+            <strong>Long EURUSD</strong><div class="muted">by @analyst • 3h ago</div>
+          </div>
+          <div style="background:#071726;padding:10px;border-radius:8px">
+            <strong>Short TSLA</strong><div class="muted">by @trader • 1d ago</div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Right column (watchlist, news, trading widget) -->
+    <aside class="right">
+      <div class="watchlist">
+        <h4 style="margin:0 0 8px 0">Watchlist</h4>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;justify-content:space-between">
+            <div>BTCUSD</div><div class="muted">42,987</div>
+          </div>
+          <div style="display:flex;justify-content:space-between">
+            <div>AAPL</div><div class="muted">176.22</div>
+          </div>
+          <div style="display:flex;justify-content:space-between">
+            <div>EURUSD</div><div class="muted">1.0842</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="news">
+        <h4 style="margin:0 0 8px 0">News</h4>
+        <div class="muted">Market headlines and relevant news for the selected symbol.</div>
+      </div>
+
+      <div class="orders">
+        <h4 style="margin:0 0 8px 0">Trading panel</h4>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button class="cta" style="flex:1">Buy</button>
+          <button class="btn" style="flex:1">Sell</button>
+        </div>
+        <div style="margin-top:8px" class="muted">Orders, positions & history appear here when connected to a broker.</div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Business / Widgets CTA -->
+  <section style="display:flex;gap:12px;align-items:center;justify-content:space-between;padding:14px;background:var(--glass);border-radius:12px">
+    <div>
+      <h3 style="margin:0">Build with our Widgets & Charting Library</h3>
+      <div class="muted">Lightweight charts, embeddable widgets, and broker APIs.</div>
+    </div>
+    <div>
+      <button class="btn">View Widgets</button>
+      <button class="cta">Get API</button>
+    </div>
+  </section>
+
+  <footer>
+    © <span id="year"></span> TradingView-Lite • Terms • Privacy • Support
+  </footer>
+</div>
+
+<!-- Lightweight script: manifest + service worker creation, simple interactivity -->
+<script>
+  // footer year
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // create a manifest blob and attach as link so this single file behaves like PWA
+  const manifest = {
+    name: "TradingView-Lite PWA",
+    short_name: "TV-Lite",
+    start_url: ".",
+    display: "standalone",
+    background_color: "#071123",
+    theme_color: "#0b1220",
+    icons: [
+      {
+        src: "data:image/svg+xml;base64," + btoa('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="12" fill="#071123"/><path d="M10 46 L26 28 L34 34 L54 10" stroke="#00b894" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>'),
+        sizes: "64x64",
+        type: "image/svg+xml"
+      }
+    ]
+  };
+  const mfBlob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
+  const mfUrl = URL.createObjectURL(mfBlob);
+  const link = document.createElement('link');
+  link.rel = 'manifest'; link.href = mfUrl;
+  document.head.appendChild(link);
+
+  // create a small service worker at runtime (caches shell)
+  const swCode = `
+    const CACHE = 'tv-lite-shell-v1';
+    const assets = ['.'];
+    self.addEventListener('install', e=> {
+      self.skipWaiting();
+      e.waitUntil(caches.open(CACHE).then(c=>c.addAll(assets)));
+    });
+    self.addEventListener('fetch', e=>{
+      if (e.request.method !== 'GET') return;
+      e.respondWith(caches.match(e.request).then(r=>r || fetch(e.request)));
+    });
+  `;
+  try {
+    // register a blob-based service worker (most modern browsers support same-origin blob URLs)
+    const swBlob = new Blob([swCode], {type:'text/javascript'});
+    const swUrl = URL.createObjectURL(swBlob);
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register(swUrl).then(reg=>{
+        console.log('Service worker registered:', reg.scope);
+      }).catch(err=>console.warn('SW registration failed', err));
+    }
+  } catch (err) {
+    console.warn('Service worker creation failed', err);
+  }
+
+  // Tiny interactive behavior: simulate a live mini "chart" update
+  (function simulateMiniChart(){
+    const el = document.getElementById('mainChart');
+    if(!el) return;
+    let v = 42000;
+    setInterval(()=>{
+      // small random walk
+      v += (Math.random()-0.48)*200;
+      el.textContent = 'Price ~ ' + Math.round(v).toLocaleString();
+    }, 1200);
+  })();
+</script>
+</body>
+</html>
